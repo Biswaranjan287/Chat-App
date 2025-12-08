@@ -26,10 +26,10 @@ export const AuthProvider = ({ Children }) => {
             toast.error(error.message)
         }
     }
-    
+
     const login = async (state, credentials) => {
         try {
-            const {data} = await axios.post(`/api/auth/${state}`, credentials)
+            const { data } = await axios.post(`/api/auth/${state}`, credentials)
             if (data.success) {
                 setAuthUser(data.userData)
                 connectSocket(data.userData)
@@ -45,6 +45,16 @@ export const AuthProvider = ({ Children }) => {
         }
     }
 
+    const logout = async () => {
+        localStorage.removeItem("token")
+        setToken(null)
+        setAuthUser(null)
+        setOnlineUser([])
+        axios.defaults.headers.common["token"] = null
+        toast.success("Logged out successfully")
+        socket.disconnect()
+    }
+
     const connectSocket = (userData) => {
         if (!userData || socket?.connected) return
         const newSocket = io(backendUrl, {
@@ -55,7 +65,7 @@ export const AuthProvider = ({ Children }) => {
         newSocket.connect()
         setSocket(newSocket)
 
-        newSocket.on("getOnlineUsers", (userIds)=>{
+        newSocket.on("getOnlineUsers", (userIds) => {
             setOnlineUser(userIds)
         })
     }
