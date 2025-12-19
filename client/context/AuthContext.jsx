@@ -93,7 +93,10 @@ export const AuthProvider = ({ Children }) => {
         axios,
         authUser,
         onlineUser,
-        socket
+        socket,
+        login,
+        logout,
+        updateProfile
     }
 
     return (
