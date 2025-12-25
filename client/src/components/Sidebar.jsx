@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import assets, { userDummyData } from '../assets/assets'
+import assets from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import { ChatContext } from '../../context/ChatContext'
@@ -13,6 +13,8 @@ const Sidebar = () => {
     const [input, setInput] = useState(false)
 
     const navigate = useNavigate()
+
+    const filteredUsers = input ? users.filter((user) => user.fullName.toLowerCase().includes(input.toLowerCase())) : users
 
     return (
         <div className={`bg-[#8185B2]/10 h-full p-5 rounded-r-xl overflow-y-scroll text-white ${selectedUser ? "max-md:hidden" : ""}`}>
@@ -33,14 +35,14 @@ const Sidebar = () => {
                     <img src={assets.search_icon} alt="Search" className='w-3' />
                     <input
                         onChange={(e) => setInput(e.target.value)}
-                        type="text" className='bg-transparent border-none outline-none text-white text-xs placeholder-[#c8c8c8] flex-1' placeholder='Search User...' 
-                        />
+                        type="text" className='bg-transparent border-none outline-none text-white text-xs placeholder-[#c8c8c8] flex-1' placeholder='Search User...'
+                    />
                 </div>
 
             </div>
 
             <div className='flex flex-col'>
-                {userDummyData.map((user, index) => (
+                {filteredUsers.map((user, index) => (
                     <div
                         onClick={() => { setSelectedUser(user) }}
                         key={index}
