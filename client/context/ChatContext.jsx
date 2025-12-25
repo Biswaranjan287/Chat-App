@@ -70,8 +70,10 @@ export const ChatProvider = ({ children }) => {
         })
     }
 
-    /* function to unsuscribe from messages */
-    const unsuscribeFromMessages = () => {
+    /* function to unsubscribe from messages */
+    const unsubscribeFromMessages = () => {
+        if (socket) socket.off("newMessage")
+    }
 
     const value = {
 
