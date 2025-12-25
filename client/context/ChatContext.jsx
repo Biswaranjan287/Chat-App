@@ -53,8 +53,8 @@ export const ChatProvider = ({ children }) => {
         }
     }
 
-    /* function to suscribe to messages for selected user */
-    const suscribeToMessages = async () => {
+    /* function to subscribe to messages for selected user */
+    const subscribeToMessages = async () => {
         if (!socket) return
 
         socket.on("newMessage", (newMessage) => {
@@ -69,6 +69,9 @@ export const ChatProvider = ({ children }) => {
             }
         })
     }
+
+    /* function to unsuscribe from messages */
+    const unsuscribeFromMessages = () => {
 
     const value = {
 
