@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import assets from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
@@ -15,6 +15,10 @@ const Sidebar = () => {
     const navigate = useNavigate()
 
     const filteredUsers = input ? users.filter((user) => user.fullName.toLowerCase().includes(input.toLowerCase())) : users
+
+    useEffect(() => {
+        getUsers()
+    }, [onlineUsers])
 
     return (
         <div className={`bg-[#8185B2]/10 h-full p-5 rounded-r-xl overflow-y-scroll text-white ${selectedUser ? "max-md:hidden" : ""}`}>
@@ -51,12 +55,12 @@ const Sidebar = () => {
                         <div className='flex flex-col leading-5'>
                             <p>{user.fullName}</p>
                             {
-                                index < 3
+                                onlineUsers.includes(user._id)
                                     ? <span className='text-green-400 text-xs'>Online</span>
                                     : <span className='text-neutral-400 text-xs'>Offline</span>
                             }
                         </div>
-                        {index > 2 && <p className='absolute top-4 right-4 text-xs h-5 w-5 flex justify-center items-center rounded-full bg-violet-500/50'>{index}</p>}
+                        {unseenMessages[user._id] > 0 && <p className='absolute top-4 right-4 text-xs h-5 w-5 flex justify-center items-center rounded-full bg-violet-500/50'>{unseenMessages[user._id]}</p>}
                     </div>
                 ))}
             </div>
